@@ -9,6 +9,6 @@ def tweet_link(link):
 
 
 if __name__ == '__main__':
-    tweet_link('https://proandroiddev.com/kotlin-sharedflow-or-how-i-learned-to-stop-using-rxjava-and-love-the-flow-e1b59d211715')
+    tweet_link('https://www.lintellettualedissidente.it/controcultura/societa/paradiso-delle-signore-rai-zola/')
 
 
