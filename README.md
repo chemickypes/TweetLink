@@ -3,6 +3,12 @@ Client Twitter for link
 
 A simple python software to analyze a link, extract hashtag and tweet all generated data
 
+**OPEN TO COLLAB**
+
+My idea is to improve my Twitter timeline and any helps is welcome! 
+I'd like to learn text analyzing too, so if you are more expert than me I need your help.
+
+
 ### Generated Data:
 A dict with:
 * title
