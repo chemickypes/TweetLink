@@ -1,4 +1,5 @@
 import tweepy
+from tweepy import TweepError
 import secrets
 
 auth = tweepy.OAuthHandler(secrets.twitter_consumer_api_key, secrets.twitter_consumer_secret_key)
@@ -12,6 +13,8 @@ try:
 except:
     print("Error during authentication")
 
+date_format = "%d/%m/%Y %H:%M:%S"
+
 
 def tweet(text):
     """
@@ -19,5 +22,8 @@ def tweet(text):
     :param text: to tweet
     :return: the status
     """
-    status = api.update_status(text)
-    return status
+    try:
+        status = api.update_status(text)
+        return {'created_at': status.created_at.strftime(date_format), 'id': status.id}
+    except TweepError as e:
+        return {'error': str(e)}
