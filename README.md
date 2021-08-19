@@ -8,8 +8,14 @@ A simple python software to analyze a link, extract hashtag and tweet all genera
 My idea is to improve my Twitter timeline and any helps is welcome! 
 I'd like to learn text analyzing too, so if you are more expert than me I need your help.
 
+### Example
+Link: `https://kapta.medium.com/simplify-android-viewmodels-by-using-these-kotlin-extenstions-part-1-dcee2424e397`
 
-### Generated Data:
+Output:
+
+![Example Tweet](example_tweet_link.png)
+
+## Generated Data:
 A dict with:
 * title
 * hashtags - list of
@@ -40,4 +46,7 @@ Algorithm to extract hashtags is so simple:
 * count the word occurrences and select the first 4 words
 
 ### TODO
-* IDEA - Analyze the word type to select nouns and avoid verbs 
+* IDEA - Analyze the word type to select nouns and avoid verbs
+
+## About Me
+* [Twitter Account](https://twitter.com/hooloovoochimic)
