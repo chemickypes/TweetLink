@@ -31,5 +31,9 @@ def tweet_link(link):
 
 if __name__ == '__main__':
     print(license_console)
-    s = tweet_link('https://www.tutorialkart.com/python/python-datetime/python-datetime-format/')
-    print(s)
+    link = input('Type link to tweet:')
+    s = tweet_link(link)
+    if 'created_at' in s:
+        print("twitted at {}".format(s['created_at']))
+    else:
+        print(s['error'])
