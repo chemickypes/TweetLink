@@ -3,6 +3,13 @@ Client Twitter for link
 
 A simple python software to analyze a link, extract hashtag and tweet all generated data
 
+### Generated Data:
+A dict with:
+* title
+* hashtags - list of
+* short url - using cutt.ly
+* original url
+
 ## How To use
 You can download and execute.
 Notice: you have to write a `secrets.py` file with:
