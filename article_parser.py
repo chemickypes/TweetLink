@@ -56,14 +56,14 @@ def parse_article(url):
     - short url
     - original url
     - list of hashtags
-    - brief description
+    - title
     """
     title, lang, text_body = get_raw_data_from(url)
     clean_text = clean_analysable_text(f"{title} {text_body}", lang)
     hashtags = [f"#{i[0]}" for i in Counter(clean_text).most_common()[:4]]
     short_url = short_link_of(url)
-    print(short_url)
-    pass
+
+    return {'title': title, 'short_url': short_url, 'hashtags': hashtags, 'link': url}
 
 
 if __name__ == '__main__':
