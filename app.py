@@ -15,9 +15,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-
 import article_parser
 import hoo_tweet_link
+
+license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
+    This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+    This is free software, and you are welcome to redistribute it
+    under certain conditions; type `show c' for details."""
 
 
 def tweet_link(link):
@@ -26,7 +30,6 @@ def tweet_link(link):
 
 
 if __name__ == '__main__':
+    print(license_console)
     s = tweet_link('https://www.tutorialkart.com/python/python-datetime/python-datetime-format/')
     print(s)
-
-
