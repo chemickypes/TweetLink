@@ -21,9 +21,6 @@ import re
 import string
 import nltk
 
-import secrets
-from utils import dict_from_json
-
 nltk.download('stopwords')
 nltk.download('punkt')
 
@@ -62,15 +59,9 @@ def clean_analysable_text(raw_text, lang):
     return [word for word in text_tokens if not word in list_of_sw]
 
 
-def short_link_of(url):
-    s = requests.get('http://cutt.ly/api/api.php?key={}&short={}'.format(secrets.cuttly_api_key, url))
-    return dict_from_json(s.text)['url']['shortLink']
-
-
 def parse_article(url):
     """
     this method get a link (url) adn generate a dict with:
-    - short url
     - original url
     - list of hashtags
     - title
@@ -78,9 +69,8 @@ def parse_article(url):
     title, lang, text_body = get_raw_data_from(url)
     clean_text = clean_analysable_text(f"{title} {text_body}", lang)
     hashtags = [f"#{i[0]}" for i in Counter(clean_text).most_common()[:4]]
-    short_url = short_link_of(url)
 
-    return {'title': title, 'short_url': short_url, 'hashtags': hashtags, 'link': url}
+    return {'title': title, 'hashtags': hashtags, 'link': url}
 
 
 if __name__ == '__main__':
