@@ -33,6 +33,18 @@ english_stopwords = stopwords.words("english")
 italian_stopwords = stopwords.words("italian")
 italian_stopwords.append('mai')
 
+desc_key_word = [('name', 'description'), ('property', 'og:description'), ('name', 'twitter:desc')]
+
+
+def get_description(soup):
+    generic_desc = ''
+    for meta_value in desc_key_word:
+        meta = soup.find('meta', attrs={meta_value[0]: meta_value[1]})
+        if meta:
+            generic_desc = meta['content']
+
+    return generic_desc
+
 
 def get_raw_data_from(url):
     page = requests.get(url)
@@ -40,7 +52,7 @@ def get_raw_data_from(url):
     title = soup.find('title').text
     lang = soup.find('html')['lang']
     text_body = re.sub(r"\s+", " ", soup.find('body').text.strip())
-    return title, lang, text_body
+    return title, lang, text_body, get_description(soup)
 
 
 def remove_punctuation(from_text):
@@ -65,15 +77,18 @@ def parse_article(url):
     - original url
     - list of hashtags
     - title
+    - description
     """
-    title, lang, text_body = get_raw_data_from(url)
-    clean_text = clean_analysable_text(f"{title} {text_body}", lang)
+    title, lang, text_body, description = get_raw_data_from(url)
+    clean_text = clean_analysable_text(f"{title} {text_body} {description}", lang)
     hashtags = [f"#{i[0]}" for i in Counter(clean_text).most_common()[:4]]
 
-    return {'title': title, 'hashtags': hashtags, 'link': url}
+    return {'title': title, 'hashtags': hashtags, 'link': url, 'description': description}
 
 
 if __name__ == '__main__':
-    parse_article('https://www.coramdeo.it/articoli/5-motivi-per-cui-i-bambini-fanno-parte-del-culto-principale/')
-    parse_article(
-        'https://proandroiddev.com/kotlin-sharedflow-or-how-i-learned-to-stop-using-rxjava-and-love-the-flow-e1b59d211715')
+    print(
+        parse_article('https://www.coramdeo.it/articoli/5-motivi-per-cui-i-bambini-fanno-parte-del-culto-principale/'))
+    print(
+        parse_article(
+            'https://proandroiddev.com/kotlin-sharedflow-or-how-i-learned-to-stop-using-rxjava-and-love-the-flow-e1b59d211715'))
