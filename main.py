@@ -14,6 +14,23 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from models import TwitterAuth, Auth, TweetBundle
+
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
-# READ app.py
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+@app.post("/login")
+async def login(twitter_auth: TwitterAuth):
+    return Auth("")
+
+
+@app.post('/tweet')
+async def tweet(tweet_bundle: TweetBundle):
+    return {}
