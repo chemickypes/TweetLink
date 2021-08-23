@@ -17,6 +17,7 @@
 
 import article_parser
 import hoo_tweet_link
+from short_url import short_link_of
 
 license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
@@ -26,7 +27,8 @@ license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
 
 def tweet_link(link):
     data = article_parser.parse_article(link)
-    return hoo_tweet_link.tweet(f"{data['title']}\n{' '.join(data['hashtags'])}\n{data['short_url']}")
+    short_url = short_link_of(link)
+    return hoo_tweet_link.tweet(f"{data['title']}\n{' '.join(data['hashtags'])}\n{short_url}")
 
 
 if __name__ == '__main__':
