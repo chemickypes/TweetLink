@@ -19,7 +19,7 @@ Output:
 A dict with:
 * title
 * hashtags - list of
-* short url - using cutt.ly
+* description 
 * original url
 
 ## How To use
