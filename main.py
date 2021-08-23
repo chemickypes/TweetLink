@@ -15,10 +15,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from models import TwitterAuth, Auth, TweetBundle
-
-from fastapi import FastAPI
+import app as tweet_link_app
+from typing import Optional
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
+
+
+def check_api_token(api_token):
+    if api_token:
+        return True
+    else:
+        return False
 
 
 @app.get("/")
@@ -32,5 +40,8 @@ async def login(twitter_auth: TwitterAuth):
 
 
 @app.post('/tweet')
-async def tweet(tweet_bundle: TweetBundle):
-    return {}
+async def tweet(tweet_bundle: TweetBundle, api_token: Optional[str] = None):
+    if check_api_token(api_token):
+        return tweet_link_app.tweet_link(tweet_bundle.link)
+    else:
+        raise HTTPException(401, 'api_token not valid')
