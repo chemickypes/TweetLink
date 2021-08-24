@@ -14,17 +14,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from dataclasses import dataclass
 from pydantic import BaseModel
 
 
-@dataclass
 class TwitterAuth(BaseModel):
     oauth_token: str
     oauth_token_secret: str
 
 
-@dataclass
 class AuthUser(BaseModel):
     oauth_token: str
     oauth_token_secret: str
@@ -32,11 +29,9 @@ class AuthUser(BaseModel):
     nickname: str
 
 
-@dataclass
 class Auth(BaseModel):
     api_token: str
 
 
-@dataclass
 class TweetBundle(BaseModel):
     link: str

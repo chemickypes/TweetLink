@@ -14,8 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+import uvicorn
+
 from models import TwitterAuth, Auth, TweetBundle
-import app as tweet_link_app
+import ho_tweet_app as tweet_link_app
 from typing import Optional
 from fastapi import FastAPI, HTTPException
 import autheticator
@@ -40,3 +42,7 @@ async def tweet(tweet_bundle: TweetBundle, api_token: Optional[str] = None):
         return tweet_link_app.tweet_link(user, tweet_bundle.link)
     else:
         raise HTTPException(401, 'api_token not valid')
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

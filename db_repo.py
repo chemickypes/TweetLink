@@ -16,10 +16,17 @@
 """
 from models import AuthUser
 
+db = {'gen11': AuthUser(
+    oauth_token='1336035132587839488-lSs7GSZFC1vswdtYwGEPCiU8pfSh3F',
+    oauth_token_secret='n3Ib5IwKnuf5vdnEYT5gqGWY4VVnqy6LfwYCQErOt6jQB',
+    api_token='gen11',
+    nickname='@hooloovoochimic'
+)}
+
 
 class DB:
     def get_auth_user(self, api_token):
-        return AuthUser("", "", "api_key", "@dd")
+        return db[api_token]
 
 
 database = DB()
