@@ -16,10 +16,15 @@
 """
 from models import AuthUser
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+# Example
 db = {'gen11': AuthUser(
-    oauth_token='1336035132587839488-lSs7GSZFC1vswdtYwGEPCiU8pfSh3F',
-    oauth_token_secret='n3Ib5IwKnuf5vdnEYT5gqGWY4VVnqy6LfwYCQErOt6jQB',
-    api_token='gen11',
+    oauth_token='13360----pfSh3F',
+    oauth_token_secret='n3Ib5IwKnuf5v------LfwYCQErOt6jQB',
+    api_token='---',
     nickname='@hooloovoochimic'
 )}
 
@@ -29,4 +34,15 @@ class DB:
         return db[api_token]
 
 
-database = DB()
+class FirebaseDB(DB):
+    def __init__(self):
+        cred = credentials.Certificate("hootweetlink_firebase.json")
+        firebase_admin.initialize_app(cred)
+        self.db = firestore.client()
+
+    def get_auth_user(self, api_token):
+        doc = self.db.collection(u'authentication').document(api_token).get().to_dict()
+        return AuthUser(**doc)
+
+
+database = FirebaseDB()
