@@ -18,6 +18,13 @@
 import article_parser
 import hoo_tweet_link
 from short_url import short_link_of
+from models import TwitterAuth, AuthUser
+import autheticator
+
+from db_repo import database, DB
+
+if not isinstance(database, DB):
+    raise Exception("database must be DB (or subclass) Instance")
 
 license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
@@ -25,16 +32,39 @@ license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
     under certain conditions; type `show c' for details."""
 
 
-def tweet_link(link):
-    data = article_parser.parse_article(link)
-    short_url = short_link_of(link)
-    return hoo_tweet_link.tweet(f"{data['title']}\n{' '.join(data['hashtags'])}\n{short_url}")
+def tweet_url(auth_user, url):
+    data = article_parser.parse_article(url)
+    short_url = short_link_of(url)
+    return hoo_tweet_link.tweet(auth_user, f"{data['title']}\n{' '.join(data['hashtags'])}\n{short_url}")
+
+
+def analyze_url(url):
+    return article_parser.parse_article(url)
+
+
+def login(twitter_auth: TwitterAuth):
+    api, user_id, user_nickname = hoo_tweet_link.login(twitter_auth)
+    auth_user = database.get_auth_user_with_id(user_id)
+    if auth_user:
+        auth_user.oauth_token = twitter_auth.oauth_token
+        auth_user.oauth_token_secret = twitter_auth.oauth_token_secret
+        auth_user.nickname = user_nickname
+    else:
+        auth_user = AuthUser(
+            oauth_token=twitter_auth.oauth_token,
+            oauth_token_secret=twitter_auth.oauth_token,
+            api_token=autheticator.generate_api_token(),
+            nickname=user_nickname,
+            user_id=user_id
+        )
+    database.store_auth_user(auth_user)
+    return auth_user
 
 
 if __name__ == '__main__':
     print(license_console)
     link = input('Type link to tweet:')
-    s = tweet_link(link)
+    s = tweet_url(link)
     if 'created_at' in s:
         print("twitted at {}".format(s['created_at']))
     else:
