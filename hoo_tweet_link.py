@@ -60,7 +60,7 @@ def tweet(user, text):
     :return: the status
     """
     try:
-        status = generate_api(user).update_status(text)
+        status = get_api(user).update_status(text)
         return {'created_at': status.created_at.strftime(date_format), 'id': status.id}
     except TweepError as e:
         return {'error': str(e)}
