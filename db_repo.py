@@ -25,7 +25,7 @@ db = {'gen11': AuthUser(
     oauth_token='13360----pfSh3F',
     oauth_token_secret='n3Ib5IwKnuf5v------LfwYCQErOt6jQB',
     api_token='---',
-    nickname='@hooloovoochimic'
+    nickname='@hoo---mic'
 )}
 
 
