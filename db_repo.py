@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from models import AuthUser
+from models import AuthUser, TwitterAuth
 
 import firebase_admin
 from firebase_admin import credentials
@@ -33,6 +33,12 @@ class DB:
     def get_auth_user(self, api_token):
         return db[api_token]
 
+    def get_auth_user_with(self, nickname):
+        return None
+
+    def store_auth_user(self, user: AuthUser):
+        pass
+
 
 class FirebaseDB(DB):
     def __init__(self):
@@ -43,6 +49,16 @@ class FirebaseDB(DB):
     def get_auth_user(self, api_token):
         doc = self.db.collection(u'authentication').document(api_token).get().to_dict()
         return AuthUser(**doc)
+
+    def get_auth_user_with(self, nickname):
+        docs = self.db.collection(u'authentication').where(u'nickname', u'==', nickname).stream()
+        user = None
+        for doc in docs:
+            user = AuthUser(**doc.to_dict())
+        return user
+
+    def store_auth_user(self, user: AuthUser):
+        self.db.collection(u'authentication').document(user.api_token).set(user.dict())
 
 
 database = FirebaseDB()
