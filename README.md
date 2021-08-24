@@ -33,7 +33,7 @@ There are more ways to try the project
 
 ### API
 
-The API are not exposed again!
+🛑🛑The API have not yet been exposed on a public link!🛑🛑
 
 #### GET /docs
 This api shows you the swagger docs
