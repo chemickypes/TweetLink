@@ -14,30 +14,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from dataclasses import dataclass
-from pydantic import BaseModel
-from typing import Optional
+from models import AuthUser
 
 
-@dataclass
-class TwitterAuth(BaseModel):
-    oauth_token: str
-    oauth_token_secret: str
+class DB:
+    def get_auth_user(self):
+        return AuthUser("", "", "api_key", "@dd")
 
 
-@dataclass
-class AuthUser(BaseModel):
-    oauth_token: str
-    oauth_token_secret: str
-    api_token: str
-    nickname: str
-
-
-@dataclass
-class Auth(BaseModel):
-    api_token: str
-
-
-@dataclass
-class TweetBundle(BaseModel):
-    link: str
+database = DB()
