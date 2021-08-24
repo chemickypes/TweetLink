@@ -32,7 +32,11 @@ async def root():
 
 @app.post("/login")
 async def login(twitter_auth: TwitterAuth):
-    return Auth("")
+    logged_user = tweet_link_app.login(twitter_auth)
+    if logged_user:
+        return logged_user
+    else:
+        raise HTTPException(400, 'login error')
 
 
 @app.post('/analyze_url')

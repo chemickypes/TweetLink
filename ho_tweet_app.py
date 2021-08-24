@@ -18,6 +18,13 @@
 import article_parser
 import hoo_tweet_link
 from short_url import short_link_of
+from models import TwitterAuth, AuthUser
+import autheticator
+
+from db_repo import database, DB
+
+if not isinstance(database, DB):
+    raise Exception("database must be DB (or subclass) Instance")
 
 license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
@@ -33,6 +40,25 @@ def tweet_url(auth_user, url):
 
 def analyze_url(url):
     return article_parser.parse_article(url)
+
+
+def login(twitter_auth: TwitterAuth):
+    api, user_id, user_nickname = hoo_tweet_link.login(twitter_auth)
+    auth_user = database.get_auth_user_with_id(user_id)
+    if auth_user:
+        auth_user.oauth_token = twitter_auth.oauth_token
+        auth_user.oauth_token_secret = twitter_auth.oauth_token_secret
+        auth_user.nickname = user_nickname
+    else:
+        auth_user = AuthUser(
+            oauth_token=twitter_auth.oauth_token,
+            oauth_token_secret=twitter_auth.oauth_token,
+            api_token=autheticator.generate_api_token(),
+            nickname=user_nickname,
+            user_id=user_id
+        )
+    database.store_auth_user(auth_user)
+    return auth_user
 
 
 if __name__ == '__main__':

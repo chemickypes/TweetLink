@@ -25,7 +25,8 @@ db = {'gen11': AuthUser(
     oauth_token='13360----pfSh3F',
     oauth_token_secret='n3Ib5IwKnuf5v------LfwYCQErOt6jQB',
     api_token='---',
-    nickname='@hoo---mic'
+    nickname='@hoo---mic',
+    user_id=""
 )}
 
 
@@ -34,6 +35,9 @@ class DB:
         return db[api_token]
 
     def get_auth_user_with(self, nickname):
+        return None
+
+    def get_auth_user_with_id(self, id):
         return None
 
     def store_auth_user(self, user: AuthUser):
@@ -52,6 +56,13 @@ class FirebaseDB(DB):
 
     def get_auth_user_with(self, nickname):
         docs = self.db.collection(u'authentication').where(u'nickname', u'==', nickname).stream()
+        user = None
+        for doc in docs:
+            user = AuthUser(**doc.to_dict())
+        return user
+
+    def get_auth_user_with_id(self, id):
+        docs = self.db.collection(u'authentication').where(u'user_id', u'==', id).stream()
         user = None
         for doc in docs:
             user = AuthUser(**doc.to_dict())

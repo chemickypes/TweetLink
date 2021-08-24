@@ -22,11 +22,10 @@ class TwitterAuth(BaseModel):
     oauth_token_secret: str
 
 
-class AuthUser(BaseModel):
-    oauth_token: str
-    oauth_token_secret: str
+class AuthUser(TwitterAuth):
     api_token: str
     nickname: str
+    user_id: str
 
 
 class Auth(BaseModel):

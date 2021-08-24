@@ -16,6 +16,8 @@
 """
 
 from db_repo import database, DB
+import random
+import string
 
 if not isinstance(database, DB):
     raise Exception("database must be DB (or subclass) Instance")
@@ -27,3 +29,7 @@ def check_api_token(api_token):
         return auth_user
     else:
         return None
+
+
+def generate_api_token():
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=12))

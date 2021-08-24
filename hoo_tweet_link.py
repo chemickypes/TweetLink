@@ -18,16 +18,16 @@
 import tweepy
 from tweepy import TweepError
 import secrets
-from models import AuthUser
+from models import AuthUser, TwitterAuth
 
 date_format = "%d/%m/%Y %H:%M:%S"
 
 api_dict = {}
 
 
-def login(user: AuthUser):
+def generate_api(twitter_auth: TwitterAuth):
     auth = tweepy.OAuthHandler(secrets.twitter_consumer_api_key, secrets.twitter_consumer_secret_key)
-    auth.set_access_token(user.oauth_token, user.oauth_token_secret)
+    auth.set_access_token(twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
     api = tweepy.API(auth)
     try:
         api.verify_credentials()
@@ -42,8 +42,14 @@ def get_api(user: AuthUser):
     if user.api_token in api_dict:
         return api_dict[user.api_token]
     else:
-        api_dict[user.api_token] = login(user)
+        api_dict[user.api_token] = generate_api(user)
         return api_dict[user.api_token]
+
+
+def login(twitter_auth: TwitterAuth):
+    api = generate_api(twitter_auth)
+    me = api.me()
+    return api, me.id_str, me.screen_name
 
 
 def tweet(user, text):
