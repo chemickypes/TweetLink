@@ -50,3 +50,4 @@ wheels/
 .installed.cfg
 *.egg
 /secrets.py
+/hootweetlink_firebase.json
