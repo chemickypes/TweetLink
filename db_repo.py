@@ -18,7 +18,7 @@ from models import AuthUser
 
 
 class DB:
-    def get_auth_user(self):
+    def get_auth_user(self, api_token):
         return AuthUser("", "", "api_key", "@dd")
 
 

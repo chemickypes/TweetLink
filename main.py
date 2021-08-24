@@ -18,15 +18,9 @@ from models import TwitterAuth, Auth, TweetBundle
 import app as tweet_link_app
 from typing import Optional
 from fastapi import FastAPI, HTTPException
+import autheticator
 
 app = FastAPI()
-
-
-def check_api_token(api_token):
-    if api_token:
-        return True
-    else:
-        return False
 
 
 @app.get("/")
@@ -41,7 +35,8 @@ async def login(twitter_auth: TwitterAuth):
 
 @app.post('/tweet')
 async def tweet(tweet_bundle: TweetBundle, api_token: Optional[str] = None):
-    if check_api_token(api_token):
+    user = autheticator.check_api_token(api_token)
+    if user:
         return tweet_link_app.tweet_link(tweet_bundle.link)
     else:
         raise HTTPException(401, 'api_token not valid')
