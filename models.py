@@ -33,5 +33,5 @@ class Auth(BaseModel):
     api_token: str
 
 
-class TweetBundle(BaseModel):
+class LinkBundle(BaseModel):
     link: str
