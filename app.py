@@ -25,10 +25,10 @@ license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
     under certain conditions; type `show c' for details."""
 
 
-def tweet_link(link):
+def tweet_link(auth_user, link):
     data = article_parser.parse_article(link)
     short_url = short_link_of(link)
-    return hoo_tweet_link.tweet(f"{data['title']}\n{' '.join(data['hashtags'])}\n{short_url}")
+    return hoo_tweet_link.tweet(auth_user, f"{data['title']}\n{' '.join(data['hashtags'])}\n{short_url}")
 
 
 if __name__ == '__main__':

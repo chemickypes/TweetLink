@@ -33,9 +33,10 @@ except:
 date_format = "%d/%m/%Y %H:%M:%S"
 
 
-def tweet(text):
+def tweet(user, text):
     """
     this method write the new tweet
+    :param user: who tweets
     :param text: to tweet
     :return: the status
     """

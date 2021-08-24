@@ -37,6 +37,6 @@ async def login(twitter_auth: TwitterAuth):
 async def tweet(tweet_bundle: TweetBundle, api_token: Optional[str] = None):
     user = autheticator.check_api_token(api_token)
     if user:
-        return tweet_link_app.tweet_link(tweet_bundle.link)
+        return tweet_link_app.tweet_link(user, tweet_bundle.link)
     else:
         raise HTTPException(401, 'api_token not valid')
