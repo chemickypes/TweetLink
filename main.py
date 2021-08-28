@@ -44,8 +44,8 @@ async def analyze_url(tweet_bundle: LinkBundle):
     return tweet_link_app.analyze_url(tweet_bundle.link)
 
 
-@app.post('cuttly_login')
-async def login_cuttly(bundle: ApiKeyBundle, api_token: Optional[str] = None):
+@app.post('/cuttly_login')
+async def cuttly_login(bundle: ApiKeyBundle, api_token: Optional[str] = None):
     user = autheticator.check_api_token(api_token)
     if user:
         return tweet_link_app.register_cuttly(user, bundle)
