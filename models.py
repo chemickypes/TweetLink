@@ -26,6 +26,7 @@ class AuthUser(TwitterAuth):
     api_token: str
     nickname: str
     user_id: str
+    cuttly_token: str
 
 
 class Auth(BaseModel):
@@ -34,3 +35,7 @@ class Auth(BaseModel):
 
 class LinkBundle(BaseModel):
     link: str
+
+
+class ApiKeyBundle(BaseModel):
+    api_key: str
