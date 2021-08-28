@@ -18,7 +18,7 @@
 import article_parser
 import hoo_tweet_link
 from short_url import short_link_of
-from models import TwitterAuth, AuthUser
+from models import TwitterAuth, AuthUser, ApiKeyBundle
 import autheticator
 
 from db_repo import database, DB
@@ -32,9 +32,9 @@ license_console = """TweetLink  Copyright (C) 2021  Angelo Moroni
     under certain conditions; type `show c' for details."""
 
 
-def tweet_url(auth_user, url):
+def tweet_url(auth_user: AuthUser, url):
     data = article_parser.parse_article(url)
-    short_url = short_link_of(url)
+    short_url = short_link_of(url, auth_user.cuttly_token)
     return hoo_tweet_link.tweet(auth_user, f"{data['title']}\n{' '.join(data['hashtags'])}\n{short_url}")
 
 
@@ -59,6 +59,15 @@ def login(twitter_auth: TwitterAuth):
         )
     database.store_auth_user(auth_user)
     return auth_user
+
+
+def register_cuttly(auth_user: AuthUser, bundle: ApiKeyBundle):
+    auth_user.cuttly_token = bundle.api_key
+    try:
+        database.store_auth_user(auth_user)
+        return 'OK'
+    except:
+        return 'KO'
 
 
 if __name__ == '__main__':

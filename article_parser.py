@@ -50,7 +50,7 @@ def get_raw_data_from(url):
     page = requests.get(url)
     soup = BS(page.content, "html.parser")
     title = soup.find('title').text
-    lang = soup.find('html')['lang']
+    lang = soup.find('html')['lang'] if 'lang' in soup.find('html') else 'en'
     text_body = re.sub(r"\s+", " ", soup.find('body').text.strip())
     return title, lang, text_body, get_description(soup)
 

@@ -15,6 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pydantic import BaseModel
+from typing import Optional
 
 
 class TwitterAuth(BaseModel):
@@ -26,6 +27,7 @@ class AuthUser(TwitterAuth):
     api_token: str
     nickname: str
     user_id: str
+    cuttly_token: Optional[str] = None
 
 
 class Auth(BaseModel):
@@ -34,3 +36,7 @@ class Auth(BaseModel):
 
 class LinkBundle(BaseModel):
     link: str
+
+
+class ApiKeyBundle(BaseModel):
+    api_key: str
